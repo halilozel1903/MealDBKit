@@ -73,7 +73,8 @@ public struct Meal: Identifiable, Hashable, Sendable, Codable {
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: DynamicKey.self)
-        guard let id = container.text("idMeal") ?? (try? container.decode(Int.self, forKey: DynamicKey("idMeal"))).map { String($0) } else {
+        let numericID = (try? container.decode(Int.self, forKey: DynamicKey("idMeal"))).map(String.init)
+        guard let id = container.text("idMeal") ?? numericID else {
             throw DecodingError.keyNotFound(
                 DynamicKey("idMeal"),
                 DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "A meal needs an idMeal.")
