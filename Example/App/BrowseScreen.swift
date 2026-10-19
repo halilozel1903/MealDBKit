@@ -180,10 +180,10 @@ struct MealListScreen: View {
     private func header(count: Int) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             if case let .category(name) = filter, let category = kitchen.category(named: name) {
-                Text(category.cleanDescription)
+                Text(Self.firstSentence(of: category.cleanDescription))
                     .font(.subheadline)
                     .foregroundStyle(Color.secondary)
-                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             Text(MealDBFormat.count(count, "recipe"))
                 .font(.subheadline.weight(.semibold))
@@ -193,6 +193,12 @@ struct MealListScreen: View {
         .padding(.horizontal, 16)
         .padding(.top, 12)
         .padding(.bottom, 4)
+    }
+
+    /// The first sentence of a category description, shown in full above the grid.
+    static func firstSentence(of text: String) -> String {
+        guard let end = text.range(of: ". ") else { return text }
+        return String(text[..<end.lowerBound]) + "."
     }
 
     private func load() async {

@@ -40,7 +40,7 @@ public struct MealCard: View {
                 Text(name)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Color.primary)
-                    .lineLimit(2, reservesSpace: true)
+                    .lineLimit(2...3)
                     .multilineTextAlignment(.leading)
                 if let subtitle {
                     Text(subtitle)
